@@ -1,0 +1,86 @@
+# Introduction {#intro}
+
+Design of experiment is a sub-field in statistics that has a long history in its developments. After Sir Ronald A. Fisher's pioneering work on the analysis of variance and fractional factorial design concepts, while working in Rothamsted Experimental Station in the 1920s and 1930s \citep[p.~21]{montgomery2012introduction}, many statisticians worked in this research area and made significant contributions. @berger2009introduction gave many vital examples in the development of optimal design theory over the years, including @chernoff1953locally,  @kiefer1959optimum, @kiefer1974general, @kiefer-wolfowitz1959optimum, @silvey1980optimal and @atkinson1992optimum. Their inputs to this field have had huge impacts towards today's design framework. One century later, design techniques have been found to be effective and now are widely used in other disciplines, such as agriculture, engineering, environmental science, biomedical and pharmaceutical studies. See examples in @crary2000optimal, @crary2002design, @haines2003bayesian, @zhou2003a, @jain2003modeling, @brosi2008optimal and @schorning2017optimal. Its primary objective is to study the cause and effect between variables under some systematic approaches and procedures.
+
+Over the decades, many theoretical results and algorithms have been developed to construct different kinds of optimal designs, which include factorial design, fractional factorial design, response surface design, and regression design. In this thesis, we will focus on optimal regression design under a recently proposed statistical estimator, second-order least squares estimator (SLSE) in @wang2008second.
+
+
+## Optimal regression design problem
+``Regression analysis is a statistical technique for investigating and modeling the relationship between variables" [@montgomery2012introduction]. It is one of the most widely used statistical methods to explore the relationship between variables based on observed data. Although there are different kinds of regression models, we mainly focus on one response linear and nonlinear regression models. 
+
+Suppose we want to study the relationship between $\boldsymbol{x}\in \mathbb{R}^p$ (a vector of explanatory variables) and $y$ (a response variable). Consider a general regression model for ($\boldsymbol{x_i},y_i$),
+
+\begin{equation}
+y_i=g\left(\boldsymbol{x_i};\boldsymbol{\theta}\right)+\epsilon_i,\quad ~i=1,\dots,n,
+(\#eq:simple-regression)
+\end{equation}
+where $\boldsymbol{\theta}\in \mathbb{R}^q$ is an unknown parameter vector, $n$ is the sample size, $g(\cdot)$ is a known linear or nonlinear expectation function depending on $\boldsymbol{\theta}$, and $\epsilon_i$ is a random error of the regression model. The random error $\epsilon_i's$ are assumed to be independent identically distributed with zero mean and variance $\sigma^2$. The random error terms are further assumed to be homoscedastic in this thesis. Since $\boldsymbol{x_i}$ and $y_i$ are observed data and $g(\cdot)$ is also known, the only unknown component is $\boldsymbol{\theta}$. A question naturally comes in mind is how to estimate $\boldsymbol{\theta}$ efficiently.
+
+
+Suppose $\hat{\boldsymbol{\theta}}$ is an estimator of $\boldsymbol{\theta}$. The design problem aims to get the most information about $\boldsymbol{\theta}$ or $g\left(\boldsymbol{x}_i;\boldsymbol{\theta}\right)$ by selecting the best probability distribution on $\boldsymbol{x}_1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_n$ that maximizes some scalar functions of the Fisher's information matrix of $\hat{\boldsymbol{\theta}}$. The sample points $\boldsymbol{x}_i$ and space are called design points and design space, respectively. It is known that Fisher's information matrix is proportional to the inverse of the variance-covariance matrix of $\hat{\boldsymbol{\theta}}$. Thus, the design problem aims to minimize some scalar functions of the variance-covariance matrix of $\hat{\boldsymbol{\theta}}$, which are called objective functions or loss functions. The resulted probability measure $\xi$ contains two components that are the support points and the corresponding probabilities associated with these points. The choice of the loss functions is determined based on the design interest. Various design criteria have been studied in the literature, such as A- and D-optimality criteria. D-optimality is one of the most widely used design criterion that minimizes the determinant of the variance-covariance matrix. The most desired property of D-optimal design is its scale invariant property. A-optimality minimizes the trace that leads to minimize the sum of the variances of the estimated parameters. See @fedorov1972theory, @silvey1980optimal, @pukelsheim2006optimal, @berger2009introduction, and @dean2015handbook for other optimality criteria.
+
+
+
+Let us consider Gompertz growth model to illustrate a D-optimal design. The model is given by
+\begin{equation*}
+y_i=\theta_1 e^{-\theta_2e^{-\theta_3 x_i}}+\epsilon_i,~i=1,2,\cdots,n,\quad \boldsymbol{\theta}
+=\left(\theta_1,\theta_2,\theta_3\right)^\top,\quad x_i\in S,
+\end{equation*}
+where $\theta_1$ describes the maximum growing capacity, $\theta_2$ explains the initial status of the subject, $\theta_3$ determines the growth rate, $y$ is the overall growth at the current time point and $x$ is the time. Note that $x$, $\theta_1$ , $\theta_2$ and $\theta_3$ are assumed to be positive in this context. We want to study how one subject's total growth associated with time. The model has broad applications in biological science and cancer studies. See some examples in \citet{laird1964dynamics} and \citet{kozusko2003combining}. Suppose the design space $S$ is $[0,10]$ (i.e. $x\in[0,10]$) and the true parameters of $\boldsymbol{\theta}$ is given by $\boldsymbol{\theta}_o=(1,1,1)^\top$. For this model, D-optimal design aims to select the probability measure on $S$ that minimizes $\det(\hat{\boldsymbol{\theta}})$, where $\hat{\boldsymbol{\theta}}$ is the SLSE. The details of the SLSE will be discussed in Section \ref{section:SLSE} and Chapter $\ref{chapter:optimal regression under SLSE}$. The resulted probability measure under D-optimality is
+\begin{equation}
+  \xi_D^*=
+\begin{bmatrix}
+ 0.000 &   1.350 &  10.000\\
+ 1/3 &   1/3 &  1/3
+\end{bmatrix},
+(\#eq:gompertz-prob)
+\end{equation}
+
+where the top row represents the support points and the second row describes the corresponding probabilities on the points. The resulted design has three support points at $x=0.000,~1.350$ and $10.000$ having equal weight ($1/3$). The interpretation of \@ref(eq:gompertz-prob) is that we will distribute resources evenly at three points, $0.000$, $1.350$ and $10.000$. For instance, if the maximum number of runs available is fifteen due to the scarcity of resources, the researcher will make five observations at each of the three points. In Figure \ref{fig:gompertz}, the line represents the behavior of expectation function $g(\boldsymbol{x};\boldsymbol{\theta})$ in the design space S, and the $*$ represents the support point.
+
+
+Many studies are conducted by using ordinary least squares estimator (OLSE) as the estimator ($\hat{\boldsymbol{\theta}}$) in optimal regression design framework. OLSE is the best linear unbiased estimator (BLUE) in the regression context. However, if the error distribution is asymmetric, the SLSE is more efficient than OLSE from @wang2008second, which is reviewed in next section.
+
+## Second-order least squares estimator {#section-SLSE}
+
+We first discuss the relationship between OLSE and SLSE, as well as the advantages of SLSE over OLSE. OLSE is an estimator to estimate the parameter vector $\boldsymbol{\theta}$ in regression model \@ref(eq:simple-regression), which is defined to be 
+\begin{equation*}
+\boldsymbol{\hat{\theta}}:=\underset{\boldsymbol{\theta}}{\mathrm{argmin}}\sum_{i=1}^n 
+(y_i-g(\boldsymbol{x_i};\boldsymbol{\theta}) )^2. 
+\end{equation*}
+The assumptions for using OLSE are: the error terms are assumed to be homoscedastic and independently identically distributed with zero mean and finite constant variance. It has many desired properties such as consistency and it is the BLUE, which is widely used. In practice, however, other estimators might outperform OLSE in some scenarios. If the error distribution is asymmetric, @wang2008second has shown that SLSE is asymptotically more efficient than OLSE. When the random errors are symmetrically distributed, SLSE and OLSE have the same asymptotic efficiency. SLSE has caught attentions in optimal regression design context due to these reasons.
+
+
+We now review some properties of the SLSE in the regression model (\@ref(eq:simple-regression). SLSE is defined as
+\begin{equation*}
+(\boldsymbol{\hat{\theta}}^\top,\hat{\sigma}^2)^\top:=\underset{\boldsymbol{\theta},\sigma^2}{\mathrm{argmin}}\sum_{i=1}^n 
+\begin{pmatrix}
+y_i-g(\boldsymbol{x}_i;\boldsymbol{\theta})\\
+y_i^2-g^2(\boldsymbol{x}_i;\boldsymbol{\theta})-\sigma^2
+\end{pmatrix}^\top
+W(\boldsymbol{x_i}) 
+\begin{pmatrix}
+y_i-g(\boldsymbol{x}_i;\boldsymbol{\theta})\\
+y_i^2-g^2(\boldsymbol{x}_i;\boldsymbol{\theta})-\sigma^2
+\end{pmatrix}.
+\end{equation*}
+Note that $W(\boldsymbol{x_i})$ is a $2\times 2$ non-negative semi-definite matrix which may or may not depend on $\boldsymbol{x_i}$ [@wang2008second]. It is clear that SLSE is a natural extension of the OLSE which is defined based on the first-order difference function (i.e. $y_i-\mathbb{E}[y_i]=y_i-g(\boldsymbol{x}_i;\boldsymbol{\theta})$). On the other hand, SLSE is defined using not only the fist-order difference function, but also second-order difference function (i.e. $y_i^2-\mathbb{E}[y_i^2]=y_i^2-(g^2(\boldsymbol{x}_i;\boldsymbol{\theta})+\sigma^2))$. One might think about the downsides of the SLSE after talking about the advantages of SLSE over OLSE. SLSE does have its disadvantages indeed. It is not a linear estimator and there is no closed-form solution. It requires more computational resources compared to the OLSE due to the nonlinearity. However, numerical results can be easily computed for SLSE nowadays. As the result, SLSE is a powerful alternative estimator to be considered in research studies and real-life applications.
+
+
+## Research problem
+As introduced in the previous section, @wang2008second showed that SLSE is asymptotically more efficient than OLSE when the error distribution is asymmetric. Optimal designs under the SLSE was proposed in @gao2014new. @bose2015optimal @yin2018optimal and @gao2017d did further investigations, including the convexity analysis, numerical methods, transformation and scale invariance properties for both A- and D-optimality criteria. There are other commonly used design criteria under the SLSE that have not been studied in the literature. Our goal is to fill this gap by extending the results to other design criteria, as well as exploring and deriving more theoretical results for the optimal designs under the SLSE.
+
+The rest of the thesis is organized as follows. Chapter 2 describes the detailed formulation of optimal regression designs under SLSE. We derive several analytical results including equivalence theorem and the number of support points in optimal designs. Chapter 3 explains how to use numerical algorithms to solve the proposed optimal regression design problems via convex programming. We also present several interesting applications of the optimal designs studied in this thesis. Chapter 4 provides concluding remarks and discusses possible future research topics. MATLAB code are given in the Appendix.
+
+## Main Contributions
+Here is a summary of the main contributions in this thesis.
+
+1. We have studied the c-optimality design criterion under the SLSE, which has not been studied before.
+
+2. We have applied Kiefer's equivalence theorem [@kiefer1974general] to obtain the conditions for the A-, c- and D-optimal designs under the SLSE.
+
+3. We have obtained the number of support points in optimal designs under the SLSE analytically for various regression models.
+
+4. We have studied the generalized scale invariance property of D-optimal designs under the SLSE.
+
+5. We have given one efficient and effective computing algorithm based on the program in MATLAB for computing optimal designs under the SLSE on discrete design spaces.

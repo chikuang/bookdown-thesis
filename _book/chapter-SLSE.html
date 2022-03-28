@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Optimal Regression Designs Under SLSE | Optimal Regression Design under Second-Order Least Squares Estimator: Theory, Algorithm and Applications</title>
+  <meta name="description" content="This is the updated copy of Chi-Kuang Yeh’s master thesis." />
+  <meta name="generator" content="bookdown 0.25.3 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Optimal Regression Designs Under SLSE | Optimal Regression Design under Second-Order Least Squares Estimator: Theory, Algorithm and Applications" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is the updated copy of Chi-Kuang Yeh’s master thesis." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Optimal Regression Designs Under SLSE | Optimal Regression Design under Second-Order Least Squares Estimator: Theory, Algorithm and Applications" />
+  
+  <meta name="twitter:description" content="This is the updated copy of Chi-Kuang Yeh’s master thesis." />
+  
+
+<meta name="author" content="Chi-Kuang Yeh" />
+
+
+<meta name="date" content="2022-03-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="methods.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites<span></span></a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#optimal-regression-design-problem"><i class="fa fa-check"></i><b>2.1</b> Optimal regression design problem<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#section-SLSE"><i class="fa fa-check"></i><b>2.2</b> Second-order least squares estimator<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#research-problem"><i class="fa fa-check"></i><b>2.3</b> Research problem<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#main-contributions"><i class="fa fa-check"></i><b>2.4</b> Main Contributions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="chapter-SLSE.html"><a href="chapter-SLSE.html"><i class="fa fa-check"></i><b>3</b> Optimal Regression Designs Under SLSE<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="chapter-SLSE.html"><a href="chapter-SLSE.html#design-criteria-under-slse"><i class="fa fa-check"></i><b>3.1</b> Design criteria under SLSE<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="chapter-SLSE.html"><a href="chapter-SLSE.html#equivalence-theorem-for-optimal-designs-under-slse"><i class="fa fa-check"></i><b>3.2</b> Equivalence theorem for optimal designs under SLSE<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="chapter-SLSE.html"><a href="chapter-SLSE.html#section-support-pt"><i class="fa fa-check"></i><b>3.3</b> Results on the number of support points<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="methods.html"><a href="methods.html#math-example"><i class="fa fa-check"></i><b>4.1</b> math example<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words<span></span></a></li>
+<li><a href="references.html#references">References<span></span></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Optimal Regression Design under Second-Order Least Squares Estimator: Theory, Algorithm and Applications</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-SLSE" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Optimal Regression Designs Under SLSE<a href="chapter-SLSE.html#chapter-SLSE" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter, we first review the results and properties of optimal regression designs under the SLSE. We then derive several new analytical results for the optimal designs under the SLSE. We begin with recalling the formulation of the optimal regression designs under SLSE based on three different criteria, A-, D-, and c-optimality. The formulation of A-, and D-optimality under the SLSE was first proposed in <span class="citation"><a href="#ref-gao2014new" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2014new" role="doc-biblioref">2014</a>)</span> while A-optimality was further investigated in <span class="citation"><a href="#ref-yin2018optimal" role="doc-biblioref">Yin and Zhou</a> (<a href="#ref-yin2018optimal" role="doc-biblioref">2017</a>)</span>. We formulate optimal design problems under A-optimality differently so that the properties can be extended to c-optimality which has not been studied yet. Equivalence results for verifying optimal designs are also obtained. In addition, analytical results are derived for the number of support points for several regression models.</p>
+<div id="design-criteria-under-slse" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Design criteria under SLSE<a href="chapter-SLSE.html#design-criteria-under-slse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let us introduce the notations first. Assume <span class="math inline">\(\sigma_o\)</span> and <span class="math inline">\(\boldsymbol{\theta}_o\)</span> are the true parameter values of <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(\boldsymbol{\theta}\)</span>, respectively. Let <span class="math inline">\(S \subset \mathbb{R}^p\)</span> be the design space for <span class="math inline">\(\boldsymbol{x}\)</span>. Let <span class="math inline">\(\operatorname{tr}(\cdot)\)</span> and <span class="math inline">\(\operatorname{det}(\cdot)\)</span> be the trace and determinant functions of a matrix, respectively. Moreover, let <span class="math inline">\(\Xi\)</span> denote the class of all probability measures on <span class="math inline">\(S\)</span>. Define, for any <span class="math inline">\(\xi\in \Xi\)</span>,</p>
+<p><span class="math display">\[\begin{equation*}
+\boldsymbol{g}_1=\boldsymbol{g}_1(\xi,\boldsymbol{\theta_o})=\mathbb{E}_{\xi}\bigg[ \frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{\partial \boldsymbol{\theta}}\Big|_{\boldsymbol{\theta}=\boldsymbol{\theta}_o} \bigg],
+\end{equation*}\]</span>
+and
+<span class="math display">\[\begin{equation*}
+\boldsymbol{G}_2=\boldsymbol{G}_2(\xi,\boldsymbol{\theta}_o)=\mathbb{E}_{\xi} \bigg[ \frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{\partial \boldsymbol{\theta}}\frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{\partial \boldsymbol{\theta}^T}\Big|_{\boldsymbol{\theta}=\boldsymbol{\theta}_o}\bigg].
+\end{equation*}\]</span></p>
+<p>For a discrete probability measure <span class="math inline">\(\xi\in \Xi\)</span>, we write it as
+<span class="math display">\[
+\xi=\begin{bmatrix}
+    \boldsymbol{x}_1&amp;\boldsymbol{x}_2   &amp;\ldots &amp;\boldsymbol{x}_m\\
+    p_1     &amp;p_2        &amp;\ldots &amp;p_m
+\end{bmatrix},
+\]</span>
+where <span class="math inline">\(\boldsymbol{x}_1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_m\)</span> are the support points in <span class="math inline">\(S\)</span>, and <span class="math inline">\(p_1,\dots,p_m\)</span> are the probabilities associated with those points. From <span class="citation"><a href="#ref-gao2014new" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2014new" role="doc-biblioref">2014</a>)</span>, the asymptotic variance-covariance matrix of <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> under the SLSE is given by
+<span class="math display" id="eq:cov-matrix">\[\begin{equation}
+\boldsymbol{\mathbb{V}}({\boldsymbol{\hat{\theta}}})=\sigma^2_o(1-t)(\boldsymbol{G}_2-t\boldsymbol{g}_1\boldsymbol{g}_1^\top)^{-1},
+\tag{3.1}
+\end{equation}\]</span>
+where <span class="math inline">\(t=\frac{\mu_3^2}{\sigma_o^2(\mu_4-\sigma_o^4)}\)</span>, <span class="math inline">\(\mu_3=\mathbb{E}[\epsilon_i^3|\boldsymbol{x}]\)</span> and <span class="math inline">\(\mu_4=\mathbb{E}[\epsilon_i^4|\boldsymbol{x}]\)</span>. Note that <span class="citation"><a href="#ref-gao2014new" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2014new" role="doc-biblioref">2014</a>)</span> discussed that <span class="math inline">\(t \in [0,1)\)</span> for any error distributions, and <span class="math inline">\(t=0\)</span> for symmetric error distributions. Define a matrix <span class="math inline">\(\boldsymbol{J}=\boldsymbol{J}(\xi,\boldsymbol{\theta}_o,t) = \boldsymbol{G}_2-t\boldsymbol{g}_1\boldsymbol{g}_1^T\)</span>. It is clear that matrix <span class="math inline">\(\boldsymbol{J}\)</span> is proportional to the inverse of the variance-covariance matrix <a href="chapter-SLSE.html#eq:cov-matrix">(3.1)</a>. For the rest of the thesis, we will be working on the design problems using matrix <span class="math inline">\(\boldsymbol{J}\)</span>.</p>
+<p>As discussed in Chapter <a href="intro.html#intro">2</a>, we aim to minimize the loss functions in optimal design problems, and the loss functions for D-, A- and c-optimality criteria under SLSE can be expressed as
+<span class="math display" id="eq:loss-J">\[\begin{equation}
+\begin{aligned}
+  \phi_D(\xi,\boldsymbol{\theta_o},t)&amp;=&amp;\det(\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)),\\
+  \phi_A(\xi,\boldsymbol{\theta_o},t)&amp;=&amp;\operatorname{tr}(\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)),\\
+  \phi_c(\xi,\boldsymbol{\theta_o},t)&amp;=&amp;\boldsymbol{c}_1^\top\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)\boldsymbol{c}_1,
+\end{aligned}
+\tag{3.2}
+\end{equation}\]</span>
+when <span class="math inline">\(\boldsymbol{J}\)</span> is non-singular, and <span class="math inline">\(\boldsymbol{c}_1\)</span> is a given vector in <span class="math inline">\(\mathbb{R}^q\)</span>. If <span class="math inline">\(\boldsymbol{J}\)</span> is singular, all the three loss functions are defined to be <span class="math inline">\(+\infty\)</span>. We use <span class="math inline">\(\xi_D^*,~\xi_A^*\)</span> and <span class="math inline">\(\xi_c^*\)</span> to denote for  A- and c-optimal designs, respectively. For two measures <span class="math inline">\(\xi_1\)</span> and <span class="math inline">\(\xi_2\in \Xi\)</span>, define <span class="math inline">\(\xi_{\alpha}=(1-\alpha)\xi_1+\alpha \xi_2\)</span> for <span class="math inline">\(\alpha \in[0,1]\)</span>.</p>
+<div class="lemma">
+<p><span id="lem:unlabeled-div-1" class="lemma"><strong>Lemma 3.1  </strong></span><span class="math inline">\(\log(\phi_D(\xi_{\alpha},\boldsymbol{\theta_o},t))\)</span>, <span class="math inline">\(\phi_A(\xi_{\alpha},\boldsymbol{\theta_o},t)\)</span> and <span class="math inline">\(\phi_c(\xi_{\alpha},\boldsymbol{\theta_o},t)\)</span> are convex functions of <span class="math inline">\(\alpha\)</span>.</p>
+</div>
+<p>The convexity results are discussed in <span class="citation"><a href="#ref-boyd2004convex" role="doc-biblioref">Boyd, Boyd, and Vandenberghe</a> (<a href="#ref-boyd2004convex" role="doc-biblioref">2004</a>)</span> and <span class="citation"><a href="#ref-wong2019cvx" role="doc-biblioref">Wong and Zhou</a> (<a href="#ref-wong2019cvx" role="doc-biblioref">2019</a>)</span>. Similar convexity results are given in <span class="citation"><a href="#ref-bose2015optimal" role="doc-biblioref">Bose and Mukerjee</a> (<a href="#ref-bose2015optimal" role="doc-biblioref">2015</a>)</span>. We will use <span class="math inline">\(\log(\det(\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)))\)</span> for D-optimal design for the rest of the thesis as <span class="math inline">\(\log(\cdot)\)</span> is a monotonic increasing function which does not change the optimality.</p>
+<p>Although we have formulated the loss functions, there are some issues associated with the formulation in @ref{eq-loss-J}. The reason is that <span class="math inline">\(\boldsymbol{J}\)</span> is lacking of linearity. From construction of <span class="math inline">\(\boldsymbol{J}\)</span>, <span class="math inline">\(\boldsymbol{J}(\xi_{\alpha},\boldsymbol{\theta_o},t)\)</span> is not a linear combination of <span class="math inline">\(\boldsymbol{J}(\xi_{1},\boldsymbol{\theta_o},t)\)</span> and <span class="math inline">\(\boldsymbol{J}(\xi_{2},\boldsymbol{\theta_o},t)\)</span>. Thus, it is difficult to obtain the theoretical results using <span class="math inline">\(\boldsymbol{J}\)</span>. To solve this issue, <span class="citation"><a href="#ref-gao2017d" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2017d" role="doc-biblioref">2017</a>)</span> proposed an alternative expression for characterizing the loss functions. The key is to define a matrix
+<span class="math display" id="eq:B-matrix">\[\begin{equation}
+\boldsymbol{B}(\xi)=\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)=
+\begin{pmatrix}
+1               &amp;   \sqrt{t}\boldsymbol{g_1}^T\\
+\sqrt{t}\boldsymbol{g_1}    &amp;   \boldsymbol{G_2}
+\end{pmatrix},
+ \tag{3.3}
+\end{equation}\]</span>
+which plays an important role in the following formulation. Note <span class="math inline">\(\boldsymbol{B}(\xi_{\alpha})\)</span> is now an affine function of <span class="math inline">\(\alpha\)</span>, i.e.,
+<span class="math display">\[ \boldsymbol{B}(\xi_{\alpha})=(1-\alpha)\boldsymbol{B}(\xi_1)+\alpha\boldsymbol{B}(\xi_2).\]</span>
+This fact ultimately makes <span class="math inline">\(\boldsymbol{B}\)</span> much more useful than <span class="math inline">\(\boldsymbol{J}\)</span> to study optimal designs under SLSE. The inverse of <span class="math inline">\(\boldsymbol{B}\)</span> is given as
+<span class="math display" id="eq:B-inverse">\[\begin{equation}
+\boldsymbol{B}^{-1}(\xi)=\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)   =\begin{pmatrix}
+\frac{1}{r}             &amp;   \frac{-\sqrt{t}}{r}\boldsymbol{g}_1^\top\boldsymbol{G}_2^{-1}   \\
+\frac{-\sqrt{t}}{r}\boldsymbol{G}_2^{-1}\boldsymbol{g}_1    &amp;\boldsymbol{J}^{-1}
+\end{pmatrix},
+ \tag{3.4}
+\end{equation}\]</span>
+where <span class="math inline">\(r=1-t\boldsymbol{g}_1^T\boldsymbol{G}_2^{-1}\boldsymbol{g}_1\)</span>. Note that if <span class="math inline">\(\boldsymbol{J}\)</span> is invertible, <span class="math inline">\(\boldsymbol{G}_2\)</span> must also be invertible since <span class="math inline">\(\boldsymbol{G}_2=\boldsymbol{J}+t\boldsymbol{g}_1\boldsymbol{g}_1^\top\)</span> and <span class="math inline">\(t\boldsymbol{g}_1\boldsymbol{g}_1^\top\)</span> is positive semi-definite. Consequently, <span class="math inline">\(\boldsymbol{B}^{-1}\)</span> exists from <a href="chapter-SLSE.html#eq:B-inverse">(3.4)</a>. Now, we are going to present the following lemmas to characterize the loss functions for A-, c- and D-optimal design problems. Lemma <a href="chapter-SLSE.html#lem:loss-A">3.2</a> is slightly different from a result in <span class="citation"><a href="#ref-yin2018optimal" role="doc-biblioref">Yin and Zhou</a> (<a href="#ref-yin2018optimal" role="doc-biblioref">2017</a>)</span>, Lemma <a href="chapter-SLSE.html#lem:loss-D">3.3</a> is a result from <span class="citation"><a href="#ref-gao2017d" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2017d" role="doc-biblioref">2017</a>)</span>, and Lemma <a href="chapter-SLSE.html#lem:loss-c">3.4</a> is a new result.</p>
+<div class="lemma">
+<p><span id="lem:loss-A" class="lemma"><strong>Lemma 3.2  </strong></span>If <span class="math inline">\(\boldsymbol{J}\)</span> is invertible, then
+<span class="math display">\[\begin{equation*}
+  \phi_A(\xi,\boldsymbol{\theta}_o,t)=\operatorname{tr}(\boldsymbol{J}^{-1})=\operatorname{tr}(\boldsymbol{C}^\top\boldsymbol{B}^{-1}\boldsymbol{C}),
+  \end{equation*}\]</span>
+where <span class="math inline">\(\boldsymbol{C}=0\oplus \boldsymbol{I}_q\)</span>, <span class="math inline">\(\boldsymbol{I}_q\)</span> denotes for the <span class="math inline">\(q\times q\)</span> identity matrix, and <span class="math inline">\(\oplus\)</span> denotes for matrix direct sum operator.</p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-2" class="proof"><em>Proof</em>. </span>From  and <span class="math inline">\(\boldsymbol{C}=0\oplus \boldsymbol{I_q}\)</span>, we get
+<span class="math display">\[\begin{align*}
+    \boldsymbol{C}^\top\boldsymbol{B}^{-1}\boldsymbol{C}&amp;=  \begin{pmatrix}
+                                0   &amp;   0\\
+                                0   &amp;   \boldsymbol{I}_q
+                                \end{pmatrix}^T\begin{pmatrix}
+            \frac{1}{r}             &amp;   \frac{-\sqrt{t}}{r}\boldsymbol{g_1}^\top\boldsymbol{G_2}^{-1}   \\
+            \frac{-\sqrt{t}}{r}\boldsymbol{g_1}\boldsymbol{G_2}^{-1}    &amp;\boldsymbol{J}^{-1}
+            \end{pmatrix}\begin{pmatrix}
+                                0   &amp;   0\\
+                                0   &amp;   \boldsymbol{I_q}
+                                \end{pmatrix}\\
+                            &amp;= \begin{pmatrix}
+                                0   &amp;   0\\
+                                0   &amp;   \boldsymbol{J}^{-1}
+                                \end{pmatrix},
+    \end{align*}\]</span>
+which implies <span class="math inline">\(\operatorname{tr}(\boldsymbol{C}^\top\boldsymbol{B}^{-1}\boldsymbol{C})=\operatorname{tr}(\boldsymbol{J}^{-1})\)</span>.</p>
+</div>
+<div class="lemma">
+<p><span id="lem:loss-D" class="lemma"><strong>Lemma 3.3  </strong></span>If <span class="math inline">\(\boldsymbol{J}\)</span> is invertible, then
+<span class="math display">\[\begin{equation*}
+    \phi_D(\xi,\boldsymbol{\theta_o},t)=\det(\boldsymbol{J}^{-1})=\det(\boldsymbol{B}^{-1}).
+\end{equation*}\]</span></p>
+</div>
+<div class="{..proof}">
+<p>From @ref{eq:B-matrix}, we have
+<span class="math display">\[\begin{align*}
+    \det(\boldsymbol{B})    &amp;= \det(1-t\boldsymbol{g_1}^T\boldsymbol{G_2}^{-1}\boldsymbol{g_1})\det(\boldsymbol{G_2})\\
+            &amp;= \det(\boldsymbol{I}-t\boldsymbol{g_1}\boldsymbol{g_1}^\top\boldsymbol{G_2}^{-1}) \det(\boldsymbol{G_2}) \\
+            &amp;=  \det(\boldsymbol{G_2}-t\boldsymbol{g_1}\boldsymbol{g_1}^T)\\
+            &amp;= \det(\boldsymbol{J}),
+    \end{align*}\]</span>
+which gives <span class="math inline">\(\det(\boldsymbol{J}^{-1})=\det(\boldsymbol{B}^{-1})\)</span>.</p>
+</div>
+<div class="lemma">
+<p><span id="lem:loss-c" class="lemma"><strong>Lemma 3.4  </strong></span>If <span class="math inline">\(\boldsymbol{J}\)</span> is invertible, then
+<span class="math display">\[\begin{equation*}
+    \phi_c(\xi,\boldsymbol{\theta_o},t)=\boldsymbol{c}_1\top\boldsymbol{J}^{-1}\boldsymbol{c}_1=\boldsymbol{c}^\top\boldsymbol{B}^{-1}\boldsymbol{c},
+\end{equation*}\]</span>
+where <span class="math inline">\(\boldsymbol{c_1}\)</span> is a vector in <span class="math inline">\(\mathbb{R}^q\)</span> and <span class="math inline">\(\boldsymbol{c}^\top=(0,\boldsymbol{c}_1^\top)\)</span>.</p>
+</div>
+<p>Thus, by Lemmas ,  and , the alternative expressions for the loss functions in  are
+<span class="math display">\[\begin{equation} \label{loss B}
+\begin{aligned}
+    \phi_D(\xi,\boldsymbol{\theta_o},t))&amp;=&amp;\det(\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)),\\
+    \phi_A(\xi,\boldsymbol{\theta}_o,t)&amp;=&amp;\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)\boldsymbol{C}),\\
+    \phi_c(\xi,\boldsymbol{\theta_o},t)&amp;=&amp;\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)\boldsymbol{c},
+\end{aligned}
+\end{equation}\]</span>
+where <span class="math inline">\(\boldsymbol{C}= 0 \oplus \boldsymbol{I_q}\)</span>, <span class="math inline">\(\boldsymbol{c_1}\in \mathbb{R}^q\)</span> and <span class="math inline">\(\boldsymbol{c}^T=(0,\boldsymbol{c_1}^T)\)</span>. If <span class="math inline">\(\boldsymbol{B}\)</span> is singular, all the three loss functions are defined to be <span class="math inline">\(+\infty\)</span>.</p>
+</div>
+<div id="equivalence-theorem-for-optimal-designs-under-slse" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Equivalence theorem for optimal designs under SLSE<a href="chapter-SLSE.html#equivalence-theorem-for-optimal-designs-under-slse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section we derive the optimality conditions for the optimal designs under the SLSE which follows from the equivalence theorem in <span class="citation"><a href="#ref-kiefer-wolfowitz1959optimum" role="doc-biblioref">Kiefer and Wolfowitz</a> (<a href="#ref-kiefer-wolfowitz1959optimum" role="doc-biblioref">1959</a>)</span> and <span class="citation"><a href="#ref-kiefer1974general" role="doc-biblioref">Kiefer</a> (<a href="#ref-kiefer1974general" role="doc-biblioref">1974</a>)</span>. We also analyze the minimum number of support points in optimal designs for various regression models, and theoretical results are obtained. Note we study approximate designs in this thesis. The advantages of working with approximate designs instead of exact design are well documented in <span class="citation"><a href="#ref-kiefer1985jack" role="doc-biblioref">Kiefer and Brown</a> (<a href="#ref-kiefer1985jack" role="doc-biblioref">1985</a>)</span>.</p>
+<p>Define a vector <span class="math inline">\(f(\boldsymbol{x,\theta_o})=\frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{ \partial \boldsymbol{\theta}}\Big|_{\boldsymbol{\theta}=\boldsymbol{\theta_o}} \in \mathbb{R}^q\)</span> and a matrix
+<span class="math display" id="eq:M-matrix">\[\begin{equation}
+\boldsymbol{M}(\boldsymbol{x})=\boldsymbol{M}(\boldsymbol{x},\boldsymbol{\theta_o},t)=\begin{pmatrix}
+1       &amp;   \sqrt{t}f^T(\boldsymbol{x},\boldsymbol{\theta_o})\\
+\sqrt{t}f(\boldsymbol{x},\boldsymbol{\theta_o}) &amp;f(\boldsymbol{x},\boldsymbol{\theta_o})f^T(\boldsymbol{x},\boldsymbol{\theta_o})
+\end{pmatrix}_{(q+1)\times (q+1)}.
+ \tag{3.5}
+\end{equation}\]</span></p>
+<p>Then <span class="math inline">\(\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)=\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x},\boldsymbol{\theta_o},t)]\)</span>. Define dispersion functions
+<span class="math display">\[\begin{equation} \label{fuction:dispersion}
+\begin{aligned}
+  &amp;d_D(\boldsymbol{x},\xi,t) = \operatorname{tr}(\boldsymbol{B}^{-1}\boldsymbol{M}(\boldsymbol{x}))-(q+1),\\
+  &amp;d_A(\boldsymbol{x},\xi,t) = \operatorname{tr}(\boldsymbol{M}(\boldsymbol{x})\boldsymbol{B}^{-1}\boldsymbol{C}^T\boldsymbol{C}\boldsymbol{B}^{-1})-\operatorname{tr}(\boldsymbol{C}\boldsymbol{B}^{-1}\boldsymbol{C}^T),\\
+  &amp;d_c(\boldsymbol{x},\xi,t) = \boldsymbol{c}^T\boldsymbol{B}^{-1}\boldsymbol{M}(\boldsymbol{x})\boldsymbol{B}^{-1}\boldsymbol{c}-\boldsymbol{c}^T\boldsymbol{B}^{-1}\boldsymbol{c},\\
+\end{aligned}
+\end{equation}\]</span>
+where <span class="math inline">\(\boldsymbol{B}=\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)\)</span> is invertible.</p>
+<div class="theorem">
+<p><span id="thm:dispersion" class="theorem"><strong>Theorem 3.1  </strong></span>We suppose all the dispersion functions are evaluated at <span class="math inline">\(\boldsymbol{\theta_o}\)</span>. If <span class="math inline">\(\xi_D^*\)</span>, <span class="math inline">\(\xi_A^*\)</span> and <span class="math inline">\(\xi_c^*\)</span> are the optimal probability measures for D-, A- and c- optimality, respectively, then <span class="math inline">\(\boldsymbol{B}\)</span> is invertible and for any <span class="math inline">\(\boldsymbol{x}\in S\)</span>,
+<span class="math display" id="eq:dire-c" id="eq:dire-A" id="eq:dire-D">\[\begin{align}
+d_D(\boldsymbol{x},\xi_D^*,t) &amp;\leq 0, \tag{3.6} \\
+d_A(\boldsymbol{x},\xi_A^*,t) &amp;\leq 0, \tag{3.7} \\
+d_c(\boldsymbol{x},\xi_c^*,t) &amp;\leq 0. \tag{3.8}
+\end{align}\]</span></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-3" class="proof"><em>Proof</em>. </span>In this proof, we use <span class="math inline">\(\boldsymbol{B}(\xi)\)</span> for <span class="math inline">\(\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)\)</span> and <span class="math inline">\(\boldsymbol{M}(\boldsymbol{x})\)</span> for <span class="math inline">\(\boldsymbol{M}(\boldsymbol{x},\boldsymbol{\theta_o},t)\)</span>. Suppose <span class="math inline">\(\xi^*\)</span> is an optimal design to a criterion. Define <span class="math inline">\(\xi_\alpha=(1-\alpha)\xi^*+\alpha \xi\)</span> where <span class="math inline">\(\xi\)</span> is an arbitrary probability measure. This proof is based on Kiefer’s general equivalence theorem , and the optimal condition can be derived from <span class="math inline">\(\frac{\partial \phi(\xi_\alpha)}{\partial \alpha}\big|_{\alpha=0}\geq 0\)</span> for any measure <span class="math inline">\(\xi \in \Xi\)</span>, where <span class="math inline">\(\phi\)</span> is a loss function.</p>
+<p>We first prove <a href="chapter-SLSE.html#eq:dire-D">(3.6)</a>. Let <span class="math inline">\(\xi_D^*\)</span> be the optimal measure under D-optimality. We have
+<span class="math display">\[\begin{align*}
+    \frac{\partial \log(\phi_D(\xi_\alpha))}{\partial \alpha}\Big|_{\alpha=0}   
+    &amp;=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)(-\boldsymbol{B}(\xi_D^*)+\boldsymbol{B}(\xi)))\\
+    &amp;=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)\boldsymbol{B}(\xi))+\operatorname{tr}(\boldsymbol{I_{q+1}})\\
+    &amp;=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)\boldsymbol{B}(\xi))+(q+1))\\
+    &amp;=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x})]-(q+1))\\
+    &amp;=-\mathbb{E}_{\xi}[d_D(\boldsymbol{x},\xi_D^*,t)]\\
+    &amp;\geq 0,~\text{for any } \xi \text{ on } S,
+    \end{align*}\]</span>
+which implies <span class="math inline">\(d_D(\boldsymbol{x},\xi_D^*,t)\leq 0\)</span>, for all <span class="math inline">\(\boldsymbol{x} \in S\)</span>.</p>
+<p>To prove <a href="chapter-SLSE.html#eq:dire-A">(3.7)</a>, let <span class="math inline">\(\xi_A^*\)</span> be the optimal measure under A-optimality. We have
+<span class="math display">\[\begin{align*}
+    \frac{\partial \phi_A(\xi_\alpha)}{\partial \alpha}\Big|_{\alpha=0} 
+    &amp;=-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)[\boldsymbol{B}(\xi)-\boldsymbol{B}(\xi_A^*)]\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C})\\
+    &amp;=-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{B}(\xi)\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C})+\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C})\\
+    &amp;=-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x})]\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C}) +\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi^*)\boldsymbol{C})\\
+    &amp;= - (\operatorname{tr}(\mathbb{E}_{\xi}[\boldsymbol{M}_{\xi}(\boldsymbol{x},\boldsymbol{\theta_o})]\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C}\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi^*))-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C}) )\\
+    &amp;= -\mathbb{E}_{\xi}[d_A(\boldsymbol{x},\xi_A^*,t)]\\
+    &amp;\geq 0,~ \text{for any } \xi \text{ on } S,
+    \end{align*}\]</span>
+which implies <span class="math inline">\(d_A(\boldsymbol{x},\xi_A^*,t)\leq 0\)</span>, for all <span class="math inline">\(\boldsymbol{x} \in S\)</span>.</p>
+<p>Lastly, to prove <a href="chapter-SLSE.html#eq:dire-D">(3.6)</a>, let <span class="math inline">\(\xi_c^*\)</span> be the optimal measure under c-optimality. We have
+<span class="math display">\[\begin{align*}
+    \frac{\partial \phi_c(\xi_\alpha)}{\partial \alpha}\Big|_{\alpha=0} 
+    &amp;=-\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)[-\boldsymbol{B}(\xi)+\boldsymbol{B}(\xi_c^*)]\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}\\
+    &amp;=-\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{B}(\xi)\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{B}(\xi_c^*)\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}\\
+    &amp;=-\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x})]\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{B}(\xi_c^*)^{-1}\boldsymbol{c}\\
+    &amp;=-\mathbb{E}_{\xi}[\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{M}(\boldsymbol{x}) \boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{B}(\xi_c^*)^{-1}\boldsymbol{c}]\\
+    &amp;=-\mathbb{E}_{\xi}[d_c(\boldsymbol{x},\xi_c^*,t)]\\
+    &amp;\geq 0,~ \text{for any } \xi \text{ on } S,
+    \end{align*}\]</span>
+which implies <span class="math inline">\(d_c(\boldsymbol{x},\xi_c^*,t)\leq 0\)</span>, for all <span class="math inline">\(\boldsymbol{x} \in S\)</span>.</p>
+</div>
+</div>
+<div id="section-support-pt" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Results on the number of support points<a href="chapter-SLSE.html#section-support-pt" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Using the results in Theorem <a href="chapter-SLSE.html#thm:dispersion">3.1</a> , we can explore the properties of the optimal designs. In <span class="citation"><a href="#ref-yin2018optimal" role="doc-biblioref">Yin and Zhou</a> (<a href="#ref-yin2018optimal" role="doc-biblioref">2017</a>)</span> and <span class="citation"><a href="#ref-gao2017d" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2017d" role="doc-biblioref">2017</a>)</span>, there are some discussions about the number of support points based on computational results. However, there is little discussion on the number of support points theoretically in <span class="citation"><a href="#ref-gao2017d" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2017d" role="doc-biblioref">2017</a>)</span>, and there is still a large gap to be filled in. Hence we derive several results about the number of support points for various models, including polynomial models, fractional polynomial models, Michaelis-Menton model, Peleg model and trigonometric models.</p>
+<p>A polynomial regression model of degree <span class="math inline">\(q\)</span> (<span class="math inline">\(q \ge 1\)</span>) without intercept is given by
+<span class="math display" id="eq:model-poly">\[\begin{equation}
+y_i=\theta_1 x_i+\theta_2 x_i^2+\cdots+\theta_q x_i^q+\epsilon_i,~x_i\in S=[-1,+1],~i=1,2,\cdots,n.
+\tag{3.9}
+\end{equation}\]</span>
+Polynomial regression models are widely used when the response and regressors have curvilinear relationship. Complex nonlinear relationships can be well approximated by polynomials over a small range of the explanatory variables . There are different kinds of polynomial models such as orthogonal polynomial models, multi-variable polynomial models, and one variable polynomial models. Polynomial models are often used in design of experiment for the response surface methodology, and there are many applications in industry. For example, see <span class="citation"><a href="#ref-box1987empirical" role="doc-biblioref">G. E. P. Box and Draper</a> (<a href="#ref-box1987empirical" role="doc-biblioref">1987</a>)</span>, <span class="citation"><a href="#ref-box1978statistics" role="doc-biblioref">G. E. Box et al.</a> (<a href="#ref-box1978statistics" role="doc-biblioref">1978</a>)</span> and <span class="citation"><a href="#ref-khuri1996response" role="doc-biblioref">Khuri and Cornell</a> (<a href="#ref-khuri1996response" role="doc-biblioref">1996</a>)</span>.</p>
+<p>A- and D-optimal designs for <a href="chapter-SLSE.html#eq:model-poly">(3.9)</a> under SLSE are symmetric on <span class="math inline">\(S\)</span> [<span class="citation"><a href="#ref-yin2018optimal" role="doc-biblioref">Yin and Zhou</a> (<a href="#ref-yin2018optimal" role="doc-biblioref">2017</a>)</span>,<span class="citation"><a href="#ref-gao2017d" role="doc-biblioref">Gao and Zhou</a> (<a href="#ref-gao2017d" role="doc-biblioref">2017</a>)</span>}. In <a href="chapter-SLSE.html#eq:model-poly">(3.9)</a>, we have
+<span class="math inline">\(\boldsymbol{f}(x,\boldsymbol{\theta})= \left(x,x^2,\cdots, x^q \right)^\top\)</span> and
+<span class="math display" id="eq:poly">\[\begin{equation}
+\boldsymbol{M}(x,\boldsymbol{\theta_o},t)=\begin{pmatrix}
+1           &amp;\sqrt{t}x  &amp;\sqrt{t}x^2    &amp;...&amp;\sqrt{t}x^q\\
+\sqrt{t}x   &amp;   x^2     &amp;x^3    &amp;\cdots &amp;x^{q+1}\\
+\vdots      &amp;\vdots     &amp;\vdots &amp;\vdots&amp;    \vdots\\
+\sqrt{t}x^q &amp;   x^{q+1} &amp;\dots  &amp;\dots  &amp;x^{2q}
+\end{pmatrix}_{(q+1)\times(q+1)}.
+\tag{3.10}
+\end{equation}\]</span></p>
+<div class="theorem">
+<p><span id="thm:support" class="theorem"><strong>Theorem 3.2  </strong></span>Let <span class="math inline">\(n_A\)</span> and <span class="math inline">\(n_D\)</span> denote the minimum number of support points in A- and D-optimal designs under SLSE, respectively. For <a href="chapter-SLSE.html#eq:model-poly">(3.9)</a>, we have
+<span class="math display">\[\begin{equation} \label{support}
+n_A ~ = ~ \text{q or q+1},
+\end{equation}\]</span>
+and
+<span class="math display">\[\begin{equation} \label{support2}
+n_D ~ = ~ \text{q or q+1}.
+\end{equation}\]</span></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-4" class="proof"><em>Proof</em>. </span>The proof includes the following three parts.</p>
+<p>(i). From @ref(thm:dispersion} and <a href="chapter-SLSE.html#eq:poly">(3.10)</a>, we can see that <span class="math inline">\(d_A(x,\xi_A^*,t)\)</span> and <span class="math inline">\(d_D(x,\xi_D^*,t)\)</span> are polynomial functions of <span class="math inline">\(x\)</span> with highest degree <span class="math inline">\(2q\)</span>. By fundamental theorem of algebra, there are exactly <span class="math inline">\(2q\)</span> roots for <span class="math inline">\(x\)</span> in equations <span class="math inline">\(d_A(x,\xi_A^*,t)=0\)</span> and <span class="math inline">\(d_D(x,\xi_D^*,t)=0\)</span>. However, we have at most <span class="math inline">\(2q\)</span> real roots.</p>
+<p>(ii). By the construction, the determinant of <span class="math inline">\(\boldsymbol{B}\)</span> matrix is not zero if and only if the determinant of <span class="math inline">\(\boldsymbol{G_2}\)</span> is not zero. Therefore, there are at least q support points in <span class="math inline">\(\xi\)</span>.</p>
+<p>(iii). Both boundary points are the support points, so the number of support points are at most <span class="math inline">\(2q-2\)</span> in the interval <span class="math inline">\((-1, +1)\)</span>. From the equivalence theorem, we know that the dispersion functions are all less or equal to zero (i.e. <span class="math inline">\(d_A(x,\xi_A^*,t)\leq 0\)</span> and <span class="math inline">\(d_D(x,\xi_D^*,t)\leq 0\)</span>), so all those support points in <span class="math inline">\((-1,+1)\)</span> have a multiplicity of two. In total, we have at most <span class="math inline">\(2+\frac{(2q-2)}{2}=q+1\)</span> distinct support points.</p>
+<p>Thus, the number of support points in <span class="math inline">\(\xi_A^*\)</span> and <span class="math inline">\(\xi_D^*\)</span> is either <span class="math inline">\(q\)</span> or <span class="math inline">\(q+1\)</span>.
+\end{proof}</p>
+</div>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bose2015optimal" class="csl-entry">
+Bose, Mausumi, and Rahul Mukerjee. 2015. <span>“Optimal Design Measures Under Asymmetric Errors, with Application to Binary Design Points.”</span> <em>Journal of Statistical Planning and Inference</em> 159: 28–36.
+</div>
+<div id="ref-box1987empirical" class="csl-entry">
+Box, George E. P, and Norman R Draper. 1987. <em>Empirical Model-Building and Response Surfaces.</em> John Wiley &amp; Sons.
+</div>
+<div id="ref-box1978statistics" class="csl-entry">
+Box, George EP, William H Hunter, Stuart Hunter, and others. 1978. <em>Statistics for Experimenters</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-boyd2004convex" class="csl-entry">
+Boyd, Stephen, Stephen P Boyd, and Lieven Vandenberghe. 2004. <em>Convex Optimization</em>. Cambridge university press.
+</div>
+<div id="ref-gao2014new" class="csl-entry">
+Gao, Lucy L, and Julie Zhou. 2014. <span>“New Optimal Design Criteria for Regression Models with Asymmetric Errors.”</span> <em>Journal of Statistical Planning and Inference</em> 149: 140–51.
+</div>
+<div id="ref-gao2017d" class="csl-entry">
+———. 2017. <span>“D-Optimal Designs Based on the Second-Order Least Squares Estimator.”</span> <em>Statistical Papers</em> 58: 77–94.
+</div>
+<div id="ref-khuri1996response" class="csl-entry">
+Khuri, Andre I, and John A Cornell. 1996. <em>Response Surfaces: Designs and Analyses</em>. 2nd ed. CRC Press.
+</div>
+<div id="ref-kiefer1974general" class="csl-entry">
+Kiefer, Jack. 1974. <span>“General Equivalence Theory for Optimum Designs (Approximate Theory).”</span> <em>The Annals of Statistics</em> 2: 849–79.
+</div>
+<div id="ref-kiefer1985jack" class="csl-entry">
+Kiefer, Jack, and LD Brown. 1985. <em>Jack Carl Kiefer Collected Papers, III: Design of Experiments</em>. Springer-Verlag New York.
+</div>
+<div id="ref-kiefer-wolfowitz1959optimum" class="csl-entry">
+Kiefer, Jack, and Jacob Wolfowitz. 1959. <span>“Optimum Designs in Regression Problems.”</span> <em>The Annals of Mathematical Statistics</em> 30: 271–94.
+</div>
+<div id="ref-wong2019cvx" class="csl-entry">
+Wong, Weng Kee, and Julie Zhou. 2019. <span>“CVX‐based Algorithms for Constructing Various Optimal Regression Designs.”</span> <em>Canadian Journal of Statistics</em> 47: 374–91.
+</div>
+<div id="ref-yin2018optimal" class="csl-entry">
+Yin, Yue, and Julie Zhou. 2017. <span>“Optimal Designs for Regression Models Using the Second-Order Least Squares Estimator.”</span> <em>Statistica Sinica</em> 27: 1841–56.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-literature.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

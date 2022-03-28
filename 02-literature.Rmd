@@ -1,0 +1,262 @@
+# Optimal Regression Designs Under SLSE {#chapter-SLSE}
+
+In this chapter, we first review the results and properties of optimal regression designs under the SLSE. We then derive several new analytical results for the optimal designs under the SLSE. We begin with recalling the formulation of the optimal regression designs under SLSE based on three different criteria, A-, D-, and c-optimality. The formulation of A-, and D-optimality under the SLSE was first proposed in @gao2014new while A-optimality was further investigated in @yin2018optimal. We formulate optimal design problems under A-optimality differently so that the properties can be extended to c-optimality which has not been studied yet. Equivalence results for verifying optimal designs are also obtained. In addition, analytical results are derived for the number of support points for several regression models.
+
+## Design criteria under SLSE
+
+Let us introduce the notations first. Assume $\sigma_o$ and $\boldsymbol{\theta}_o$ are the true parameter values of $\sigma$ and $\boldsymbol{\theta}$, respectively. Let $S \subset \mathbb{R}^p$ be the design space for $\boldsymbol{x}$. Let $\operatorname{tr}(\cdot)$ and $\operatorname{det}(\cdot)$ be the trace and determinant functions of a matrix, respectively. Moreover, let $\Xi$ denote the class of all probability measures on $S$. Define, for any $\xi\in \Xi$,
+
+\begin{equation*}
+\boldsymbol{g}_1=\boldsymbol{g}_1(\xi,\boldsymbol{\theta_o})=\mathbb{E}_{\xi}\bigg[ \frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{\partial \boldsymbol{\theta}}\Big|_{\boldsymbol{\theta}=\boldsymbol{\theta}_o} \bigg],
+\end{equation*}
+and 
+\begin{equation*}
+\boldsymbol{G}_2=\boldsymbol{G}_2(\xi,\boldsymbol{\theta}_o)=\mathbb{E}_{\xi} \bigg[ \frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{\partial \boldsymbol{\theta}}\frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{\partial \boldsymbol{\theta}^T}\Big|_{\boldsymbol{\theta}=\boldsymbol{\theta}_o}\bigg].
+\end{equation*}
+
+
+For a discrete probability measure $\xi\in \Xi$, we write it as
+\[
+\xi=\begin{bmatrix}
+	\boldsymbol{x}_1&\boldsymbol{x}_2	&\ldots	&\boldsymbol{x}_m\\
+    p_1		&p_2		&\ldots	&p_m
+\end{bmatrix},
+\]
+where $\boldsymbol{x}_1,\boldsymbol{x}_2,\dots,\boldsymbol{x}_m$ are the support points in $S$, and $p_1,\dots,p_m$ are the probabilities associated with those points. From @gao2014new, the asymptotic variance-covariance matrix of $\hat{\boldsymbol{\theta}}$ under the SLSE is given by
+\begin{equation}
+\boldsymbol{\mathbb{V}}({\boldsymbol{\hat{\theta}}})=\sigma^2_o(1-t)(\boldsymbol{G}_2-t\boldsymbol{g}_1\boldsymbol{g}_1^\top)^{-1},
+(\#eq:cov-matrix)
+\end{equation}
+where $t=\frac{\mu_3^2}{\sigma_o^2(\mu_4-\sigma_o^4)}$, $\mu_3=\mathbb{E}[\epsilon_i^3|\boldsymbol{x}]$ and $\mu_4=\mathbb{E}[\epsilon_i^4|\boldsymbol{x}]$. Note that @gao2014new discussed that $t \in [0,1)$ for any error distributions, and $t=0$ for symmetric error distributions. Define a matrix $\boldsymbol{J}=\boldsymbol{J}(\xi,\boldsymbol{\theta}_o,t) = \boldsymbol{G}_2-t\boldsymbol{g}_1\boldsymbol{g}_1^T$. It is clear that matrix $\boldsymbol{J}$ is proportional to the inverse of the variance-covariance matrix \@ref(eq:cov-matrix). For the rest of the thesis, we will be working on the design problems using matrix $\boldsymbol{J}$. 
+
+
+As discussed in Chapter \@ref(intro), we aim to minimize the loss functions in optimal design problems, and the loss functions for D-, A- and c-optimality criteria under SLSE can be expressed as
+\begin{equation}
+\begin{aligned}
+  \phi_D(\xi,\boldsymbol{\theta_o},t)&=&\det(\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)),\\
+  \phi_A(\xi,\boldsymbol{\theta_o},t)&=&\operatorname{tr}(\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)),\\
+  \phi_c(\xi,\boldsymbol{\theta_o},t)&=&\boldsymbol{c}_1^\top\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)\boldsymbol{c}_1,
+\end{aligned}
+(\#eq:loss-J)
+\end{equation}
+when $\boldsymbol{J}$ is non-singular, and $\boldsymbol{c}_1$ is a given vector in $\mathbb{R}^q$. If $\boldsymbol{J}$ is singular, all the three loss functions are defined to be $+\infty$. We use $\xi_D^*,~\xi_A^*$ and $\xi_c^*$ to denote for \text{D-,} A- and c-optimal designs, respectively. For two measures $\xi_1$ and $\xi_2\in \Xi$, define $\xi_{\alpha}=(1-\alpha)\xi_1+\alpha \xi_2$ for $\alpha \in[0,1]$.
+
+::: {.lemma}
+$\log(\phi_D(\xi_{\alpha},\boldsymbol{\theta_o},t))$, $\phi_A(\xi_{\alpha},\boldsymbol{\theta_o},t)$ and $\phi_c(\xi_{\alpha},\boldsymbol{\theta_o},t)$ are convex functions of $\alpha$.
+:::
+The convexity results are discussed in @boyd2004convex and @wong2019cvx. Similar convexity results are given in @bose2015optimal. We will use $\log(\det(\boldsymbol{J}^{-1}(\xi,\boldsymbol{\theta_o},t)))$ for D-optimal design for the rest of the thesis as $\log(\cdot)$ is a monotonic increasing function which does not change the optimality.
+
+
+Although we have formulated the loss functions, there are some issues associated with the formulation in \@ref{eq-loss-J}. The reason is that $\boldsymbol{J}$ is lacking of linearity. From construction of $\boldsymbol{J}$, $\boldsymbol{J}(\xi_{\alpha},\boldsymbol{\theta_o},t)$ is not a linear combination of $\boldsymbol{J}(\xi_{1},\boldsymbol{\theta_o},t)$ and $\boldsymbol{J}(\xi_{2},\boldsymbol{\theta_o},t)$. Thus, it is difficult to obtain the theoretical results using $\boldsymbol{J}$. To solve this issue, @gao2017d proposed an alternative expression for characterizing the loss functions. The key is to define a matrix
+\begin{equation}
+\boldsymbol{B}(\xi)=\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)=
+\begin{pmatrix}
+1				&	\sqrt{t}\boldsymbol{g_1}^T\\
+\sqrt{t}\boldsymbol{g_1}	&	\boldsymbol{G_2}
+\end{pmatrix},
+ (\#eq:B-matrix)
+\end{equation}
+which plays an important role in the following formulation. Note $\boldsymbol{B}(\xi_{\alpha})$ is now an affine function of $\alpha$, i.e., 
+$$ \boldsymbol{B}(\xi_{\alpha})=(1-\alpha)\boldsymbol{B}(\xi_1)+\alpha\boldsymbol{B}(\xi_2).$$
+This fact ultimately makes $\boldsymbol{B}$ much more useful than $\boldsymbol{J}$ to study optimal designs under SLSE. The inverse of $\boldsymbol{B}$ is given as
+\begin{equation}
+\boldsymbol{B}^{-1}(\xi)=\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)	=\begin{pmatrix}
+\frac{1}{r}				&	\frac{-\sqrt{t}}{r}\boldsymbol{g}_1^\top\boldsymbol{G}_2^{-1}	\\
+\frac{-\sqrt{t}}{r}\boldsymbol{G}_2^{-1}\boldsymbol{g}_1	&\boldsymbol{J}^{-1}
+\end{pmatrix},
+ (\#eq:B-inverse)
+\end{equation}
+where $r=1-t\boldsymbol{g}_1^T\boldsymbol{G}_2^{-1}\boldsymbol{g}_1$. Note that if $\boldsymbol{J}$ is invertible, $\boldsymbol{G}_2$ must also be invertible since $\boldsymbol{G}_2=\boldsymbol{J}+t\boldsymbol{g}_1\boldsymbol{g}_1^\top$ and $t\boldsymbol{g}_1\boldsymbol{g}_1^\top$ is positive semi-definite. Consequently, $\boldsymbol{B}^{-1}$ exists from \@ref(eq:B-inverse). Now, we are going to present the following lemmas to characterize the loss functions for A-, c- and D-optimal design problems. Lemma \@ref(lem:loss-A) is slightly different from a result in @yin2018optimal, Lemma \@ref(lem:loss-D) is a result from @gao2017d, and Lemma \@ref(lem:loss-c) is a new result.
+
+::: {.lemma #loss-A}
+If $\boldsymbol{J}$ is invertible, then
+  \begin{equation*}
+  \phi_A(\xi,\boldsymbol{\theta}_o,t)=\operatorname{tr}(\boldsymbol{J}^{-1})=\operatorname{tr}(\boldsymbol{C}^\top\boldsymbol{B}^{-1}\boldsymbol{C}),
+  \end{equation*}
+where $\boldsymbol{C}=0\oplus \boldsymbol{I}_q$, $\boldsymbol{I}_q$ denotes for the $q\times q$ identity matrix, and $\oplus$ denotes for matrix direct sum operator.
+:::
+
+::: {.proof}
+From \eqref{B inverse} and $\boldsymbol{C}=0\oplus \boldsymbol{I_q}$, we get
+	\begin{align*}
+    \boldsymbol{C}^\top\boldsymbol{B}^{-1}\boldsymbol{C}&=	\begin{pmatrix}
+    							0	&	0\\
+                                0	&	\boldsymbol{I}_q
+    							\end{pmatrix}^T\begin{pmatrix}
+            \frac{1}{r}				&	\frac{-\sqrt{t}}{r}\boldsymbol{g_1}^\top\boldsymbol{G_2}^{-1}	\\
+            \frac{-\sqrt{t}}{r}\boldsymbol{g_1}\boldsymbol{G_2}^{-1}	&\boldsymbol{J}^{-1}
+            \end{pmatrix}\begin{pmatrix}
+    							0	&	0\\
+                                0	&	\boldsymbol{I_q}
+    							\end{pmatrix}\\
+            				&= \begin{pmatrix}
+    							0	&	0\\
+                                0	&	\boldsymbol{J}^{-1}
+    							\end{pmatrix},
+    \end{align*}
+    which implies $\operatorname{tr}(\boldsymbol{C}^\top\boldsymbol{B}^{-1}\boldsymbol{C})=\operatorname{tr}(\boldsymbol{J}^{-1})$.
+:::
+
+::: {.lemma #loss-D}
+If $\boldsymbol{J}$ is invertible, then
+\begin{equation*}
+	\phi_D(\xi,\boldsymbol{\theta_o},t)=\det(\boldsymbol{J}^{-1})=\det(\boldsymbol{B}^{-1}).
+\end{equation*}
+:::
+
+
+::: {..proof}
+From \@ref{eq:B-matrix}, we have
+	\begin{align*}
+    \det(\boldsymbol{B})	&= \det(1-t\boldsymbol{g_1}^T\boldsymbol{G_2}^{-1}\boldsymbol{g_1})\det(\boldsymbol{G_2})\\
+    		&= \det(\boldsymbol{I}-t\boldsymbol{g_1}\boldsymbol{g_1}^\top\boldsymbol{G_2}^{-1}) \det(\boldsymbol{G_2}) \\
+    		&=	\det(\boldsymbol{G_2}-t\boldsymbol{g_1}\boldsymbol{g_1}^T)\\
+    		&= \det(\boldsymbol{J}),
+    \end{align*}
+    which gives $\det(\boldsymbol{J}^{-1})=\det(\boldsymbol{B}^{-1})$.
+:::
+
+:::{.lemma #loss-c}
+If $\boldsymbol{J}$ is invertible, then
+\begin{equation*}
+	\phi_c(\xi,\boldsymbol{\theta_o},t)=\boldsymbol{c}_1\top\boldsymbol{J}^{-1}\boldsymbol{c}_1=\boldsymbol{c}^\top\boldsymbol{B}^{-1}\boldsymbol{c},
+\end{equation*}
+where $\boldsymbol{c_1}$ is a vector in $\mathbb{R}^q$ and $\boldsymbol{c}^\top=(0,\boldsymbol{c}_1^\top)$.
+:::
+
+Thus, by Lemmas \ref{lemma:loss A}, \ref{lemma:loss D} and \ref{lemma:loss c}, the alternative expressions for the loss functions in \eqref{loss J} are 
+\begin{equation} \label{loss B}
+\begin{aligned}
+	\phi_D(\xi,\boldsymbol{\theta_o},t))&=&\det(\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)),\\
+	\phi_A(\xi,\boldsymbol{\theta}_o,t)&=&\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)\boldsymbol{C}),\\
+    \phi_c(\xi,\boldsymbol{\theta_o},t)&=&\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi,\boldsymbol{\theta_o},t)\boldsymbol{c},
+\end{aligned}
+\end{equation}
+where $\boldsymbol{C}= 0 \oplus \boldsymbol{I_q}$, $\boldsymbol{c_1}\in \mathbb{R}^q$ and $\boldsymbol{c}^T=(0,\boldsymbol{c_1}^T)$. If $\boldsymbol{B}$ is singular, all the three loss functions are defined to be $+\infty$.
+
+## Equivalence theorem for optimal designs under SLSE
+
+In this section we derive the optimality conditions for the optimal designs under the SLSE which follows from the equivalence theorem in @kiefer-wolfowitz1959optimum and @kiefer1974general. We also analyze the minimum number of support points in optimal designs for various regression models, and theoretical results are obtained. Note we study approximate designs in this thesis. The advantages of working with approximate designs instead of exact design are well documented in @kiefer1985jack.
+
+Define a vector $f(\boldsymbol{x,\theta_o})=\frac{\partial g(\boldsymbol{x};\boldsymbol{\theta})}{ \partial \boldsymbol{\theta}}\Big|_{\boldsymbol{\theta}=\boldsymbol{\theta_o}} \in \mathbb{R}^q$ and a matrix 
+\begin{equation}
+\boldsymbol{M}(\boldsymbol{x})=\boldsymbol{M}(\boldsymbol{x},\boldsymbol{\theta_o},t)=\begin{pmatrix}
+1		&	\sqrt{t}f^T(\boldsymbol{x},\boldsymbol{\theta_o})\\
+\sqrt{t}f(\boldsymbol{x},\boldsymbol{\theta_o})	&f(\boldsymbol{x},\boldsymbol{\theta_o})f^T(\boldsymbol{x},\boldsymbol{\theta_o})
+\end{pmatrix}_{(q+1)\times (q+1)}.
+ (\#eq:M-matrix)
+\end{equation}
+
+
+
+
+Then $\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)=\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x},\boldsymbol{\theta_o},t)]$. Define dispersion functions
+\begin{equation} \label{fuction:dispersion}
+\begin{aligned}
+  &d_D(\boldsymbol{x},\xi,t) = \operatorname{tr}(\boldsymbol{B}^{-1}\boldsymbol{M}(\boldsymbol{x}))-(q+1),\\
+  &d_A(\boldsymbol{x},\xi,t) = \operatorname{tr}(\boldsymbol{M}(\boldsymbol{x})\boldsymbol{B}^{-1}\boldsymbol{C}^T\boldsymbol{C}\boldsymbol{B}^{-1})-\operatorname{tr}(\boldsymbol{C}\boldsymbol{B}^{-1}\boldsymbol{C}^T),\\
+  &d_c(\boldsymbol{x},\xi,t) = \boldsymbol{c}^T\boldsymbol{B}^{-1}\boldsymbol{M}(\boldsymbol{x})\boldsymbol{B}^{-1}\boldsymbol{c}-\boldsymbol{c}^T\boldsymbol{B}^{-1}\boldsymbol{c},\\
+\end{aligned}
+\end{equation}
+where $\boldsymbol{B}=\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)$ is invertible.
+
+
+::: {.theorem #dispersion}
+We suppose all the dispersion functions are evaluated at $\boldsymbol{\theta_o}$. If $\xi_D^*$, $\xi_A^*$ and $\xi_c^*$ are the optimal probability measures for D-, A- and c- optimality, respectively, then $\boldsymbol{B}$ is invertible and for any $\boldsymbol{x}\in S$,
+\begin{align}
+d_D(\boldsymbol{x},\xi_D^*,t) &\leq 0, (\#eq:dire-D) \\
+d_A(\boldsymbol{x},\xi_A^*,t) &\leq 0, (\#eq:dire-A) \\
+d_c(\boldsymbol{x},\xi_c^*,t) &\leq 0. (\#eq:dire-c)
+\end{align}
+:::
+
+::: {.proof}
+In this proof, we use $\boldsymbol{B}(\xi)$ for $\boldsymbol{B}(\xi,\boldsymbol{\theta_o},t)$ and $\boldsymbol{M}(\boldsymbol{x})$ for $\boldsymbol{M}(\boldsymbol{x},\boldsymbol{\theta_o},t)$. Suppose $\xi^*$ is an optimal design to a criterion. Define $\xi_\alpha=(1-\alpha)\xi^*+\alpha \xi$ where $\xi$ is an arbitrary probability measure. This proof is based on Kiefer's general equivalence theorem \citep{kiefer1974general}, and the optimal condition can be derived from  $\frac{\partial \phi(\xi_\alpha)}{\partial \alpha}\big|_{\alpha=0}\geq 0$ for any measure $\xi \in \Xi$, where $\phi$ is a loss function.
+
+We first prove \@ref(eq:dire-D). Let $\xi_D^*$ be the optimal measure under D-optimality. We have
+    \begin{align*}
+	\frac{\partial \log(\phi_D(\xi_\alpha))}{\partial \alpha}\Big|_{\alpha=0}	
+    &=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)(-\boldsymbol{B}(\xi_D^*)+\boldsymbol{B}(\xi)))\\
+    &=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)\boldsymbol{B}(\xi))+\operatorname{tr}(\boldsymbol{I_{q+1}})\\
+    &=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)\boldsymbol{B}(\xi))+(q+1))\\
+	&=-\operatorname{tr}(\boldsymbol{B}^{-1}(\xi_D^*)\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x})]-(q+1))\\
+    &=-\mathbb{E}_{\xi}[d_D(\boldsymbol{x},\xi_D^*,t)]\\
+	&\geq 0,~\text{for any } \xi \text{ on } S,
+	\end{align*}
+	which implies $d_D(\boldsymbol{x},\xi_D^*,t)\leq 0$, for all $\boldsymbol{x} \in S$.
+	
+To prove \@ref(eq:dire-A), let $\xi_A^*$ be the optimal measure under A-optimality. We have
+    \begin{align*}
+	\frac{\partial \phi_A(\xi_\alpha)}{\partial \alpha}\Big|_{\alpha=0}	
+    &=-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)[\boldsymbol{B}(\xi)-\boldsymbol{B}(\xi_A^*)]\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C})\\
+    &=-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{B}(\xi)\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C})+\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C})\\
+	&=-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x})]\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C}) +\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi^*)\boldsymbol{C})\\
+    &= - (\operatorname{tr}(\mathbb{E}_{\xi}[\boldsymbol{M}_{\xi}(\boldsymbol{x},\boldsymbol{\theta_o})]\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C}\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi^*))-\operatorname{tr}(\boldsymbol{C}^T\boldsymbol{B}^{-1}(\xi_A^*)\boldsymbol{C}) )\\
+    &= -\mathbb{E}_{\xi}[d_A(\boldsymbol{x},\xi_A^*,t)]\\
+	&\geq 0,~ \text{for any } \xi \text{ on } S,
+	\end{align*}
+    which implies $d_A(\boldsymbol{x},\xi_A^*,t)\leq 0$, for all $\boldsymbol{x} \in S$.
+    
+       
+Lastly, to prove \@ref(eq:dire-D), let $\xi_c^*$ be the optimal measure under c-optimality. We have
+    \begin{align*}
+	\frac{\partial \phi_c(\xi_\alpha)}{\partial \alpha}\Big|_{\alpha=0}	
+    &=-\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)[-\boldsymbol{B}(\xi)+\boldsymbol{B}(\xi_c^*)]\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}\\
+    &=-\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{B}(\xi)\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{B}(\xi_c^*)\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}\\
+    &=-\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\mathbb{E}_{\xi}[\boldsymbol{M}(\boldsymbol{x})]\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{B}(\xi_c^*)^{-1}\boldsymbol{c}\\
+	&=-\mathbb{E}_{\xi}[\boldsymbol{c}^T\boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{M}(\boldsymbol{x}) \boldsymbol{B}^{-1}(\xi_c^*)\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{B}(\xi_c^*)^{-1}\boldsymbol{c}]\\
+    &=-\mathbb{E}_{\xi}[d_c(\boldsymbol{x},\xi_c^*,t)]\\
+	&\geq 0,~ \text{for any } \xi \text{ on } S,
+	\end{align*}
+	which implies $d_c(\boldsymbol{x},\xi_c^*,t)\leq 0$, for all $\boldsymbol{x} \in S$.
+:::
+
+
+## Results on the number of support points {#section-support-pt}
+
+Using the results in Theorem \@ref(thm:dispersion) , we can explore the properties of the optimal designs. In @yin2018optimal and @gao2017d, there are some discussions about the number of support points based on computational results. However, there is little discussion on the number of support points theoretically in @gao2017d, and there is still a large gap to be filled in. Hence we derive several results about the number of support points for various models, including polynomial models, fractional polynomial models, Michaelis-Menton model, Peleg model and trigonometric models.
+
+
+A polynomial regression model of degree $q$ ($q \ge 1$) without intercept is given by
+\begin{equation}
+y_i=\theta_1 x_i+\theta_2 x_i^2+\cdots+\theta_q x_i^q+\epsilon_i,~x_i\in S=[-1,+1],~i=1,2,\cdots,n.
+(\#eq:model-poly)
+\end{equation} 
+Polynomial regression models are widely used when the response and regressors have curvilinear relationship. Complex nonlinear relationships can be well approximated by polynomials over a small range of the explanatory variables \citep[p.~223]{montgomery2012introduction}. There are different kinds of polynomial models such as orthogonal polynomial models, multi-variable polynomial models, and one variable polynomial models. Polynomial models are often used in design of experiment for the response surface methodology, and there are many applications in industry. For example, see @box1987empirical, @box1978statistics and @khuri1996response. 
+
+
+A- and D-optimal designs for \@ref(eq:model-poly) under SLSE are symmetric on $S$ [@yin2018optimal,@gao2017d}. In \@ref(eq:model-poly), we have 
+$\boldsymbol{f}(x,\boldsymbol{\theta})= \left(x,x^2,\cdots, x^q \right)^\top$ and
+\begin{equation}
+\boldsymbol{M}(x,\boldsymbol{\theta_o},t)=\begin{pmatrix}
+1			&\sqrt{t}x	&\sqrt{t}x^2	&...&\sqrt{t}x^q\\
+\sqrt{t}x	&	x^2		&x^3	&\cdots	&x^{q+1}\\
+\vdots		&\vdots		&\vdots	&\vdots&	\vdots\\
+\sqrt{t}x^q	&	x^{q+1}	&\dots	&\dots	&x^{2q}
+\end{pmatrix}_{(q+1)\times(q+1)}.
+(\#eq:poly)
+\end{equation}
+
+::: {.theorem #support}
+Let $n_A$ and $n_D$ denote the minimum number of support points in A- and D-optimal designs under SLSE, respectively. For \@ref(eq:model-poly), we have
+\begin{equation} \label{support}
+n_A ~ = ~ \text{q or q+1},
+\end{equation}
+and 
+\begin{equation} \label{support2}
+n_D ~ = ~ \text{q or q+1}.
+\end{equation}
+:::
+
+::: {.proof}
+The proof includes the following three parts.
+
+(i). From \@ref(thm:dispersion} and \@ref(eq:poly), we can see that $d_A(x,\xi_A^*,t)$ and $d_D(x,\xi_D^*,t)$ are polynomial functions of $x$ with highest degree $2q$. By fundamental theorem of algebra, there are exactly $2q$ roots for $x$ in equations $d_A(x,\xi_A^*,t)=0$ and $d_D(x,\xi_D^*,t)=0$. However, we have at most $2q$ real roots.
+
+(ii). By the construction, the determinant of $\boldsymbol{B}$ matrix is not zero if and only if the determinant of $\boldsymbol{G_2}$ is not zero. Therefore, there are at least q support points in $\xi$.
+
+(iii). Both boundary points are the support points, so the number of support points are at most $2q-2$ in the interval $(-1, +1)$. From the equivalence theorem, we know that the dispersion functions are all less or equal to zero (i.e. $d_A(x,\xi_A^*,t)\leq 0$ and $d_D(x,\xi_D^*,t)\leq 0$), so all those support points in $(-1,+1)$ have a multiplicity of two. In total, we have at most $2+\frac{(2q-2)}{2}=q+1$ distinct support points. 
+
+Thus, the number of support points in $\xi_A^*$ and $\xi_D^*$ is either $q$ or $q+1$.
+\end{proof}
+:::
