@@ -1,0 +1,18 @@
+# Discussions {#chapter:discussions}
+
+We have reviewed the current development of optimal regression designs under the SLSE and derived more theoretical properties for the optimal designs. We can characterize the loss function for the A-optimal design in convex optimization framework differently, so that the result can be extended to c-optimality criterion under the SLSE. We have also derived the optimality conditions based on the equivalence results for A-, D- and c-optimality criteria. Furthermore We have studied and obtained the number of support points for several regression models under the SLSE analytically.
+
+For nonlinear models, the optimal designs often depend on the value of parameter vector $\boldsymbol{\theta}_o$, and it is difficult to solve the optimal regression design problems analytically. We have investigated a CVX based numerical algorithm to compute for the optimal designs using the properties we obtained. Using the approximate design approach by discretizing the design space into a user-specified number of gird points, we can find optimal designs efficiently and effectively with the CVX based algorithm. Several applications are given in the thesis for showcasing the effectiveness of the algorithm.
+
+Generalized scale invariance property for D-optimality is a very useful property that is also studied in this thesis. It can be applied to both linear and nonlinear regression models. This property can be helpful in many situations. For instance, if matrix $\boldsymbol{B}$ is ill-conditioned, our numerical algorithm may fail. We may be able to use this property to rescale the design space and find the D-optimal design on the scaled design space. This scaling is helpful to avoid computing issues related to ill-conditioned matrix.
+
+
+Although our algorithm is effective and efficient for the models presented in this thesis, there are still challenges to construct optimal designs for complicated models. We discuss a few of them here.
+
+
+When the dimension of the design space $S$ is high (i.e. having many design variables), for instance, $10$ $x's$ in the mixture experiment, the algorithm may be unstable. Sometimes, since we keep the point when its weight is more than $10^{-4}$ by using the numerical algorithm, there can be many points having very small positive weights. Such points may not be significant in the optimal designs. Also, it is difficult to partition the high dimensional space into tiny gird points, as the computation time increases exponentially as $N$ increases.  
+
+When matrix $\boldsymbol{B}$ is ill-conditioned, the numerical algorithm will fail as it cannot find optimal designs precisely. For D-optimal designs, we have discussed that for some models, we may use the generalized scale invariant properties to rescale the ill-conditioned matrix and obtain the optimal designs. However, not all the models under D-optimality have such property. Furthermore, other design criteria, such as A- and c-, generally do not have such property. Therefore, further investigations are required to address this issue in the future.
+
+
+Although we have extended the theoretical properties under the SLSE to c-optimality criterion which has not been studied before, there are still many other design criteria under the SLSE, such as E-, G- and minimax criteria that have not been studied. 

@@ -1,0 +1,58 @@
+# Numerical Algorithm and Applications {#chapter-applications}
+
+We have studied the optimality conditions and the number of support points for optimal designs under SLSE in Chapter \@ref(chapter-SLSE). However, it is still challenging to find optimal designs analytically, except for simple regression models. Often numerical algorithms are used to compute optimal designs, and various algorithms have been studied including @titterington1978estimation, @silvey1978an, @dette2008improving, and @torsney2009multiplicative. For optimal designs under the SLSE, @bose2015optimal used multiplicative algorithms for finding the optimal designs whereas @gao2017d used convex programming and semi-definite programming (SDP) in MATLAB. Here we want to further extend the computational strategies for finding optimal designs under the SLSE. In this chapter, we discuss an effective algorithm to compute optimal designs based on CVX programming in MATLAB.
+
+## Optimization problem
+
+We first discretize the design space $S \subset \mathbb{R}^p$, and the discretized space is denoted as $S_N\subset S$, where $N$ is the number of points in $S_N$. The magnitude of $N$ can be very large, but often the designs are highly efficient already with moderate $N$. More discussions about the choice of $N$ is given in the examples in this chapter  The discretization can be done in many different ways, but we discretize the design space using equally spaced gird points for the sake of simplicity. For an one dimensional design space, say $S=[a,b]$, the design points are $a+(i-1)\frac{(b-a)}{N},i=1,2,...,N$. For higher dimensional design spaces, we use equally spaced grid points for each variable, and $S_N$ is formed by Cartesian product.
+
+Suppose $\xi^*$ is the optimal probability measure in $\Xi_N$, where $\Xi_N$ includes all the distributions on $S_N$. We denote $S_N=\{\boldsymbol{u}_1,\boldsymbol{u}_2,...,\boldsymbol{u}_N\}\subset S$. Any probability measure $\xi \in \Xi_N$ can be express as 
+\[
+	\xi=\begin{bmatrix}
+	\boldsymbol{u}_1	&\boldsymbol{u}_2	&...&\boldsymbol{u}_N\\
+	w_1		&w_2	&...&w_N
+	\end{bmatrix},
+\] 
+
+where $w_i$ is the weight at $\boldsymbol{u_i}$, which is non-negative and $\sum_{i=1}^Nw_i=1$. The optimal regression design problem can be expressed as
+\begin{equation} 
+\begin{aligned}
+& \underset{w_1, ..., w_N, \delta}{\text{min}}
+& &  \delta \\
+& \text{s.t.}
+& & \sum_{i=1}^N w_i=1,\\
+& & & -w_i\leq 0,~ \text{for }i = 1,2, ..., N,\\
+& & & \phi \leq \delta, 
+\end{aligned}
+(\#eq:optimization)
+\end{equation}
+where $\phi$ is a loss function, which can be $\phi_A$, $\log(\phi_D)$ or $\phi_c$ defined in \eqref{eq:loss-B}. Notice that for any $\xi \in \Xi_N$, $\boldsymbol{B}(\xi,\boldsymbol{\theta}_o,t)=\mathbb{E}_{\xi}[\boldsymbol{M(\boldsymbol{x},\boldsymbol{\theta}_o},t)]=\sum_{i=1}^N \boldsymbol{M}(\boldsymbol{u}_i,\boldsymbol{\theta}_o,t)w_i$, where $\boldsymbol{M}(\boldsymbol{u_i},\boldsymbol{\theta}_o,t)$ is defined in \@ref(eq:M-matrix). We also note that a design point is selected if its weight is greater than a very small number $\delta_1$  (a small positive number, say $10^{-5}$) in practice. Lastly, we report the $d_D^{\max}=\max\{d_D |\boldsymbol{x}\in S\}$ ($d_A^{\max},~d_c^{\max}$) for D-optimality (A-, c-optimality), where $d_D,d_A$ and $d_c$ are defined in \@ref(eq:dire). If $d_D^{\max}<\delta_2$ (a small positive number, say $10^{-4}$), then the numerical solution to the above optimization problem is a D-optimal design by Theorem \@ref(thm:dispersion). Similarly we can check for A- and c-optimal designs. Problem \@ref(eq:optimization) is a convex optimization problem. We will discuss an algorithm to solve \@ref(eq:optimization) in the next section.
+
+## Computational Algorithm {#section-algorithm}
+There are some numerical algorithms which have been studied under the SLSE. @bose2015optimal applied multiplicative algorithms for finding the optimal designs to binary design points. @gao2017d computed D-optimal designs using the moments of distribution $\xi \in \Xi$. @yin2018optimal formulated the design problems as convex optimization problem and applied convex optimization programs CVX and SeDuMi in MATLAB to find D- and A-optimal designs, respectively. In their work, the A-optimal design problems are solved by SeDuMi which is hard to write the code in MATLAB. In our newly proposed formulation in \@ref(eq:optimization), we are able to use CVX to find A-optimal designs, which is much easier to code. Moreover, the CVX programming can be also applied to find c-optimal designs, which the previous algorithms were not applied before.
+
+
+Figure \ref{Flow chart} illustrates a simple algorithm with six steps to apply CVX for finding optimal designs. Users input the variables, partition the design space into $N$ grid points, and compute the $\boldsymbol{M}$ matrix in the first three steps. Steps (i), (ii) and (iii) depend on the regression model and the design space. Step (iv) solves the optimal design problem by CVX program, which depends on the optimality criterion. The details of using CVX and MATLAB code can be found in Appendix \ref{appendix:algorithm} and Appendix \ref{appendix:matlab}. We present several examples using this algorithm to show optimal designs in Section \@ref(section:applications).
+
+## Applications {#section:applications}
+We compute A-, D- and c-optimal designs for various regression models. Notice that when the intercept term presents, the resulting optimal designs under the OLSE and the SLSE are the same @gao2014new. Since there are many studies in optimal regression designs under the OLSE in the literature already, we only consider the models without the intercept. All the examples are computed via CVX package in MATLAB. We provide the results with different values of $t$, where $t$ is related to a measure of skewness of the error distribution. The related MATLAB code can be found in Appendix @appendix:matlab.
+
+All the examples in this thesis are computed on a PC with Intel Core I5 6500 4 cores CPU, 3.20 GHz. The MATLAB version is R2018a academic student version with CVX version 2.1 and build number 1123. The RAM and the platform for this particular machine are 16 Gigabyte and Windows 10 Professional version, respectively.
+
+::: {.example #gompertz}
+This example is for Gompertz growth model which was briefly described in Chapter \@ref(chapter:introduction) to showcase the output. Here, we use this model to show the effects of N on the D-optimal designs under SLSE with $\boldsymbol{\theta_o}=(1,1,1)^\top$, $S=[0.0,10.0]$ and $t=0$.
+
+Table \ref{table:gompertz1} gives D-optimal designs for various values of $N$. Note that the D-optimal design in Figure \ref{fig:gompertz} in Chapter \ref{chapter:introduction} is for $N=2001$. We can see that the optimal design changes when $N$ increases. However, when $N\ge 1001$, the optimal designs do not change much and converge to a distribution having three support points with equal weights. We also show the change of the loss function as $N$ changes in Figure \ref{fig:gom_loss}. As $N\rightarrow +\infty$, the loss function converges too. In this example, moderate $N$ already gives a highly efficient design as shown in Figure \ref{fig:gom_loss}. Similar results are obtained for A- and c-optimal designs, and representative results are given in Table \ref{table:gompertz2}, where $\boldsymbol{c_1}=(2,0.5,1)^T$ is used for c-optimal designs, and $t= 0.0, 0.3, 0.5, 0.7$ and $0.9$.
+
+It is clear that $d_A^{\max}=\max\limits_{x}(d_A(x,\xi_A^*,t)$ (or $d_c(x,\xi_c^*,t)$) is small, which satisfies the optimality conditions in Theorem \ref{theorem:dispersion}. We should also point out that for some situations when two numerical support points are very close to each other, they are probably representing only one theoretical support point which is between the two numerical support points. For instance, when $t=0.0$, the two support points $1.315$ and $1.320$ are very close to each other in A-optimal design. If we discretize the design space to more points (i.e. choose larger $N$), we can find this particular point. For instance, the A-optimal design with $N=9001$ is 
+
+\[ 
+    \xi_A^*=\begin{bmatrix}
+    			0.000	&	1.318	&	10.000\\
+                0.354	&	0.385	&	0.261
+    \end{bmatrix},
+\]
+which only has three support points and $1.318$ is indeed in between $1.315$ and $1.320$.
+The computational time changes from 1.65 seconds to 86.16 seconds for $N=51$ to $N=20001$, which increases quite a bit but the computational time is still less than two minutes.
+\hfill\(\Box\) 
+:::
