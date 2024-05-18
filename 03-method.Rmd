@@ -1,5 +1,7 @@
 # Numerical Algorithm and Applications {#chapter-applications}
 
+\newcommand{\btheta}{\mathbf{\theta}}
+
 We have studied the optimality conditions and the number of support points for optimal designs under SLSE in Chapter \@ref(chapter-SLSE). However, it is still challenging to find optimal designs analytically, except for simple regression models. Often numerical algorithms are used to compute optimal designs, and various algorithms have been studied including @titterington1978estimation, @silvey1978an, @dette2008improving, and @torsney2009multiplicative. For optimal designs under the SLSE, @bose2015optimal used multiplicative algorithms for finding the optimal designs whereas @gao2017d used convex programming and semi-definite programming (SDP) in MATLAB. Here we want to further extend the computational strategies for finding optimal designs under the SLSE. In this chapter, we discuss an effective algorithm to compute optimal designs based on CVX programming in MATLAB.
 
 ## Optimization problem
@@ -55,4 +57,43 @@ It is clear that $d_A^{\max}=\max\limits_{x}(d_A(x,\xi_A^*,t)$ (or $d_c(x,\xi_c^
 which only has three support points and $1.318$ is indeed in between $1.315$ and $1.320$.
 The computational time changes from 1.65 seconds to 86.16 seconds for $N=51$ to $N=20001$, which increases quite a bit but the computational time is still less than two minutes.
 \hfill\(\Box\) 
+:::
+
+::: {.example #polynomial}
+
+We consider the polynomial regression model in \eqref{model:poly} with $q=5$. Here $\bm{f}(x;\bm{\theta}) = (x,x^2,... ,x^q)^T$ which does not depend on $\btheta$. The A- and D-optimal designs are shown in Figure \ref{fig:poly_5}. With $N=2001$, we can see that the number of support points is always six for this model. When $q$ is even, the number of support points for D- and A-optimal designs equals to $q$ for small $t$, and equals to $q+1$ for larger $t$. This is consistent with Theorem \ref{theorem:support}.
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.475\textwidth}
+            \centering
+            \caption[]%
+            {{\small}} 
+            \includegraphics[width=\textwidth]{Figures/D_poly_5_t_000.jpg}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.475\textwidth}  
+            \centering
+            \caption[]%
+            {{\small}} 
+            \includegraphics[width=\textwidth]{Figures/D_poly_5_t_070.jpg}
+        \end{subfigure}
+        \vskip\baselineskip
+        \begin{subfigure}[b]{0.475\textwidth}   
+            \centering
+            \caption[]%
+            {{\small}} 
+            \includegraphics[width=\textwidth]{Figures/A_poly_5_t_000.jpg}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{0.475\textwidth}   
+            \centering
+            \caption[]%
+            {{\small}} 
+            \includegraphics[width=\textwidth]{Figures/A_poly_5_t_070.jpg}
+        \end{subfigure}
+        \caption{Plots of D- and A-optimal designs for polynomial model of order $5$ without intercept under the SLSE with different values of $t$ and $N=2001$. (a) D-optimal design with $t = 0.00$, (b) D-optimal design with $t = 0.70$, (c) A-optimal design with $t = 0.00$, (d) A-optimal design with $t = 0.70$.}
+        \label{fig:poly_5}
+\end{figure}
+\hfill\(\Box\)
 :::
